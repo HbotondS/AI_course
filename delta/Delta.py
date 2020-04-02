@@ -25,20 +25,53 @@ def train(training_inputs, training_outputs, training_iterations, weights):
         weights += adjustments
 
 
+def Offline_learning(inputs, outputs_expected, activation_func, gradf, learning_rate):
+
+    size_input = len(inputs)
+
+    weights = np.random.randn(size_input)
+
+    weights.shape = (size, 1)
+
+    epoch = 0
+
+    while true:
+
+        value = np.dot(inputs, weights)
+        output = activation_func(avlue)
+        current_error = numpy.subtract(output, outputs_expected)
+        g = np.transpose(inputs)
+        grad_value = gradf(value)
+        grad_value.shape = (len(grad_value), 1)
+        g = g.dot(current_error, grad_value)
+        weights = np.subtract(weights, (learning_rate * g))
+        E = sum_column_square(current_error)
+
+        if E < 0.00001 or epoch > 5000:
+            break
+
+        epoch += 1
+
+
+def sum_column_square(element):
+    length = len(element)
+    summ = 0
+
+    for i in range(length):
+        summ += element[i] ** 2
+
+    return summ
+
+
 if __name__ == "__main__":
 
     images_elephant = []
     images_starfish = []
 
-    weights = 2 * np.random.random((3, 1)) - 1
-
     for image in glob("./elephant/*.jpg"):
         im = cv2.imread(image, 0)
-        cv2.imshow('kep', im)
-        cv2.waitKey(0)
         images_elephant.append(im)
 
     for image in glob("./starfish/*.jpg"):
         im = cv2.imread(image, 0)
         images_starfish.append(im)
-
