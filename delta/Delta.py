@@ -31,15 +31,15 @@ def Offline_learning(inputs, outputs_expected, activation_func, gradf, learning_
 
     weights = np.random.randn(size_input)
 
-    weights.shape = (size, 1)
+    weights.shape = (size_input, 1)
 
     epoch = 0
 
-    while true:
+    while True:
 
         value = np.dot(inputs, weights)
-        output = activation_func(avlue)
-        current_error = numpy.subtract(output, outputs_expected)
+        output = activation_func(value)
+        current_error = np.subtract(output, outputs_expected)
         g = np.transpose(inputs)
         grad_value = gradf(value)
         grad_value.shape = (len(grad_value), 1)
@@ -63,6 +63,14 @@ def sum_column_square(element):
     return summ
 
 
+def v_gradf(x):
+    length = len(x)
+
+    for i in range(length):
+        x[i][0] = sigmoid_derivative(x[i][0])
+    return np.array(x, dtype=float)
+
+
 if __name__ == "__main__":
 
     images_elephant = []
@@ -75,3 +83,7 @@ if __name__ == "__main__":
     for image in glob("./starfish/*.jpg"):
         im = cv2.imread(image, 0)
         images_starfish.append(im)
+
+    images = images_elephant + images_starfish
+    outputs_expected = np.concatenate( (np.zeros(len(images_elephant)), np.ones(len(images_starfish))), axis=0 )
+    Offline_learning(images, outputs_expected, sigmoid, v_gradf, 0.00005)
