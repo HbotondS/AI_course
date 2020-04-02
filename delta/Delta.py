@@ -27,7 +27,7 @@ def train(training_inputs, training_outputs, training_iterations, weights):
 
 def Offline_learning(inputs, outputs_expected, activation_func, gradf, learning_rate):
 
-    size_input = len(inputs)
+    size_input = len(inputs[0])
 
     weights = np.random.randn(size_input)
 
@@ -40,10 +40,11 @@ def Offline_learning(inputs, outputs_expected, activation_func, gradf, learning_
         value = np.dot(inputs, weights)
         output = activation_func(value)
         current_error = np.subtract(output, outputs_expected)
-        g = np.transpose(inputs)
+        x_transpose = np.transpose(inputs)
         grad_value = gradf(value)
         grad_value.shape = (len(grad_value), 1)
-        g = g.dot(current_error, grad_value)
+        something = np.dot(current_error, grad_value)
+        g = np.dot(x_transpose, something)
         weights = np.subtract(weights, (learning_rate * g))
         E = sum_column_square(current_error)
 
@@ -86,4 +87,4 @@ if __name__ == "__main__":
 
     images = images_elephant + images_starfish
     outputs_expected = np.concatenate( (np.zeros(len(images_elephant)), np.ones(len(images_starfish))), axis=0 )
-    Offline_learning(images, outputs_expected, sigmoid, v_gradf, 0.00005)
+    Offline_learning(images[0], outputs_expected[0], sigmoid, v_gradf, 0.00005)
