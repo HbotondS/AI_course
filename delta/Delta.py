@@ -32,12 +32,13 @@ if __name__ == "__main__":
 
     weights = 2 * np.random.random((3, 1)) - 1
 
-    for image in glob("D:/101_ObjectCategories/elephant/*.jpg"):
-        im = cv2.imread(image)
-        grayImage = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-        images_elephant.append(grayImage)
+    for image in glob("./elephant/*.jpg"):
+        im = cv2.imread(image, 0)
+        cv2.imshow('kep', im)
+        cv2.waitKey(0)
+        images_elephant.append(im)
 
-    for image in glob("D:/101_ObjectCategories/starfish/*.jpg"):
-        im = cv2.imread(image)
-        grayImage = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY)
-        images_starfish.append(grayImage)
+    for image in glob("./starfish/*.jpg"):
+        im = cv2.imread(image, 0)
+        images_starfish.append(im)
+
