@@ -1,8 +1,29 @@
 # minmax AI
 import math
+from sys import maxsize
+import numpy as np
 
-#def bestMove():
-    # todo
+ai = 'X'
+human = 'O'
+currentPlayer = human
+board = np.chararray((15, 15))
+board[:] = ''
+
+def bestMove():
+    # AI turn
+    bestScore = -maxsize
+    for i in range(15):
+        for j in range(15):
+            if board[i][j] == '':
+                board[i][j] = ai
+                score = minmax(board, 0, False)
+                board[i][j] = ''
+                if score > bestScore:
+                    bestScore = score
+                    move = (i, j)
+
+    board[move[0]][move[1]] = ai
+    currentPlayer = human
 
 
 def minmax(board, depth, isMax):
