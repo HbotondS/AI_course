@@ -44,8 +44,8 @@ def minmax(board, depth, isMax):
         return bestScore
     else:
         bestScore = math.inf
-        for i in range(16):
-            for j in range(16):
+        for i in range(15):
+            for j in range(15):
                 if board[i][j] == 0:
                     board[i][j] = human
                     score = minmax(board, depth + 1, True)
