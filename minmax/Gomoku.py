@@ -7,7 +7,7 @@ import sys
 ai = -2
 human = 2
 board = np.zeros((15, 15), dtype=int)
-maxDepth = 5
+maxDepth = 3
 
 
 def winnerCheck():
@@ -114,15 +114,15 @@ if __name__ == "__main__":
         maxDepth = sys.argv[1]
 
     printBoard()
-    bestMove()
-    printBoard()
     while True:
         score = winnerCheck()
         if score != None:
             print('tie')
             break
 
+        bestMove()
+        printBoard()
         print("Your next move: ")
         row = input("row: ")
         column = input("column: ")
-        board[row][column] = human
+        board[int(row)][int(column)] = human
