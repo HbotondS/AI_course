@@ -30,14 +30,14 @@ def winnerCheck():
     #diagonal check
     for i in range(11):
         checkdiagonal = board.diagonal(i)
-        for j in range(len(checkdiagonal)):
+        for j in range(len(checkdiagonal)-4):
             if checkdiagonal[j] == checkdiagonal[j+1] == checkdiagonal[j+2] == checkdiagonal[j+3] == checkdiagonal[j+4] != 0:
                 winner = checkdiagonal[j]
                 return winner
 
     for i in range(11):
         checkdiagonal = board.diagonal(-i)
-        for j in range(len(checkdiagonal)):
+        for j in range(len(checkdiagonal)-4):
             if checkdiagonal[j] == checkdiagonal[j+1] == checkdiagonal[j+2] == checkdiagonal[j+3] == checkdiagonal[j+4] != 0:
                 winner = checkdiagonal[j]
                 return winner
