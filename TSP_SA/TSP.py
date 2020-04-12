@@ -5,8 +5,7 @@ from random import randrange, random
 
 
 class SimulatedAnnealing:
-    def __init__(self, temperature):
-        self.min_temperature = temperature
+    def __init__(self):
         self.min_temperature = 0.99
         self.rate_of_cooling = 0.005
 
@@ -23,7 +22,8 @@ class SimulatedAnnealing:
 
             if(type(currentRoute) == list):
                 adjacentRoute = self.obtainAdjacentRoute(Path(currentRoute))
-            else: adjacentRoute = self.obtainAdjacentRoute(Path(currentRoute.cities))
+            else: 
+                adjacentRoute = self.obtainAdjacentRoute(Path(currentRoute.cities))
             if(CurrentRoute.calcPathDist() < shortestRoute.calcPathDist()):
                 shortestRoute = Path(currentRoute)
             if(self.acceptRoute(CurrentRoute.calcPathDist(), adjacentRoute.calcPathDist(), temperature)):
@@ -75,6 +75,6 @@ if __name__ == "__main__":
     Cities.append(City(312, 42, "Roma"))
     Cities.append(City(63, 14, "Budapest"))
 
-    Annealing = SimulatedAnnealing(999)
+    Annealing = SimulatedAnnealing()
 
     Annealing.findRoute(999, Cities)
