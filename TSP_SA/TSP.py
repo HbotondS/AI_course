@@ -41,12 +41,6 @@ class SimulatedAnnealing:
         randomNumb = random()
         if(acceptanceProbability.real >= randomNumb):
             acceptRouteFlag = True
-        if(shorterDistance):
-            decision = "proceed"
-        elif(acceptRouteFlag):
-            decision = "proceed"
-        else:
-            decision = "stay"
         return acceptRouteFlag
 
     def obtainAdjacentRoute(self, route):
@@ -70,7 +64,7 @@ if __name__ == "__main__":
     Cities.append(City(1, 8, "Bukarest"))
     Cities.append(City(11, 15, "Kolozsvar"))
     Cities.append(City(0, 3, "Szeben"))
-    Cities.append(City(135, 11, "Cszikszereda"))
+    Cities.append(City(135, 11, "Csikszereda"))
     Cities.append(City(0, 18, "Katmandu"))
     Cities.append(City(312, 42, "Roma"))
     Cities.append(City(63, 14, "Budapest"))
