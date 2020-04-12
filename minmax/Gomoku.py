@@ -7,7 +7,7 @@ import sys
 ai = -2
 human = 2
 board = np.zeros((15, 15), dtype=int)
-maxDepth = 3
+maxDepth = 2
 
 
 def winnerCheck():
