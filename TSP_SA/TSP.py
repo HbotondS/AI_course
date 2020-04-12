@@ -1,38 +1,34 @@
 from cmath import exp
-
 from Cities import City
-from Cities import Distance
+from Path import Path
 from random import randrange, random
-
-Cities = []
-for i in range(10):
-    rand_x = randrange(10)
-    rand_y = randrange(10)
-    Cities.append(City(rand_x, rand_y))
-
-Distances = []
-
-for i in range(9):
-    randDistance = randrange(100)
-    Distances.append(Distance(Cities[i], Cities[i+1], randDistance))
-
-# print(Distances[1].city1, Distances[1].city2, Distances[1].distance)
 
 
 class SimulatedAnnealing:
-    def __init__(self, temperature, currentRoute):
-        self.temperature = temperature;
-        self.currentRoute = currentRoute;
+    def __init__(self, temperature):
+        self.min_temperature = temperature
+        self.min_temperature = 0.99
+        self.rate_of_cooling = 0.005
+
 
     def findRoute(self, temperature, currentRoute):
-        shortestRoute = new Route(currentRoute)
-        while(temperature > 0.99):
-            adjacentRoute = obtainAdjacentRoute(new Route(currentRoute))
-            if(currentRoute.getTotalDistance() < shortestRoute.getTotalDistance()):
-                shortestRoute = new Route(currentRoute)
-            if(acceptRoute(currentRoute.getTotalDistance(), adjacentRoute.getTotalDistance(), temperature)):
-                currentRoute = new Route(adjacentRoute)
-            temperature = temperature * 1-0.005
+        shortestRoute = Path(currentRoute)
+        CurrentRoute = Path(currentRoute)
+        while(temperature > self.min_temperature):
+            for city in CurrentRoute.cities:
+                print(city.name, end=" ")
+
+            print()
+            print(CurrentRoute.calcPathDist())
+
+            if(type(currentRoute) == list):
+                adjacentRoute = self.obtainAdjacentRoute(Path(currentRoute))
+            else: adjacentRoute = self.obtainAdjacentRoute(Path(currentRoute.cities))
+            if(CurrentRoute.calcPathDist() < shortestRoute.calcPathDist()):
+                shortestRoute = Path(currentRoute)
+            if(self.acceptRoute(CurrentRoute.calcPathDist(), adjacentRoute.calcPathDist(), temperature)):
+                CurrentRoute = Path(adjacentRoute.cities)
+            temperature = temperature * (1 - self.rate_of_cooling)
         return shortestRoute
 
     def acceptRoute(self, currentDistance, adjacentDistance, temperature):
@@ -43,7 +39,7 @@ class SimulatedAnnealing:
             acceptanceProbability = exp(-(adjacentDistance - currentDistance) / temperature)
             shorterDistance = False
         randomNumb = random()
-        if(acceptanceProbability >= randomNumb):
+        if(acceptanceProbability.real >= randomNumb):
             acceptRouteFlag = True
         if(shorterDistance):
             decision = "proceed"
@@ -57,10 +53,28 @@ class SimulatedAnnealing:
         x1 = 0
         x2 = 0
         while x1 == x2:
-            x1 = route.getCities().size() * random()
-            x2 = route.getCities().size() * random()
-        city1 = route.getCities().get(x1)
-        city2 = route.getCities().get(x2)
-        route.getCities().set(x2, city1)
-        route.getCities().set(x1, city2)
+            x1 = int(route.cities_size() * random())
+            x2 = int(route.cities_size() * random())
+        city1 = route.cities[x1]
+        city2 = route.cities[x2]
+        route.cities[x2] = city1
+        route.cities[x1] = city2
+
         return route
+
+
+if __name__ == "__main__":
+    Cities = []
+
+    Cities.append(City(423, 0, "Marosvasarhely"))
+    Cities.append(City(1, 8, "Bukarest"))
+    Cities.append(City(11, 15, "Kolozsvar"))
+    Cities.append(City(0, 3, "Szeben"))
+    Cities.append(City(135, 11, "Cszikszereda"))
+    Cities.append(City(0, 18, "Katmandu"))
+    Cities.append(City(312, 42, "Roma"))
+    Cities.append(City(63, 14, "Budapest"))
+
+    Annealing = SimulatedAnnealing(999)
+
+    Annealing.findRoute(999, Cities)
